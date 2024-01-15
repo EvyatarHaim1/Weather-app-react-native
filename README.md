@@ -53,7 +53,10 @@ Technologies explanation:
   1.  email & password
   2.  passwordless - a method that you type an email and it send you an email to the provided email address and then in the email you receive you have a link the points back to the app and this process is equivalent to other signin methods.
 
-![alt text](https://github.com/EvyatarHaim1/evyatar-haim-21-07-2021/blob/main/src/assets/images/screenshots/10.png)
-![alt text](https://github.com/EvyatarHaim1/evyatar-haim-21-07-2021/blob/main/src/assets/images/screenshots/14.png)
-![alt text](https://github.com/EvyatarHaim1/evyatar-haim-21-07-2021/blob/main/src/assets/images/screenshots/15.png)
-![alt text](https://github.com/EvyatarHaim1/evyatar-haim-21-07-2021/blob/main/src/assets/images/screenshots/13.png)
+![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/forecast-screen.png)
+![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/forecast-screen2.png)
+![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/forecast-screen3.png)
+![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/logout-screen.png)
+![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/Signup.png)
+![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/Login.png)
+![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/current-weather.png)
