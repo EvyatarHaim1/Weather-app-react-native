@@ -53,7 +53,6 @@ export const get_fiveDays_forecast = async (cityId: string) => {
 export const get_user_location = async (lat, long) => {
   try {
     const res = await getUserLocation(lat, long);
-    console.log(res?.LocalizedName);
     get_city_weather(res?.LocalizedName);
   } catch (err) {
     console.log('Cannot load weather', err);

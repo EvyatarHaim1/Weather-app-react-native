@@ -10,8 +10,6 @@ import axios from 'axios';
 
 export const getCurrentCityWeather = async (city: string) => {
   try {
-
-    console.log(`${BASE_URL_CITY_WEATHER}?q=${city}&appid=${WEATHER_APP_KEY}`);
     const response = await axios.get(
       `${BASE_URL_CITY_WEATHER}?q=${city}&appid=${WEATHER_APP_KEY}`,
     );
@@ -62,7 +60,6 @@ export const getFiveDaysForecast = async (cityId: string) => {
 };
 
 export const getUserLocation = async (lat, long) => {
-  console.log(`${BASE_URL_GEOLOCATION}${DATA_SERVICE_KEY}&q=${lat},${long}`);
   try {
     const response = await axios.get(
       `${BASE_URL_GEOLOCATION}${DATA_SERVICE_KEY}&q=${lat},${long}`,
