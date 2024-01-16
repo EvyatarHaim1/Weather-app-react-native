@@ -12,6 +12,29 @@ Instructions how to run the application locally:
 * React Native CLI installed
 * Node.js version and other dependencies based on the React Native documentation.
 
+* In case you have all those dependencies installed and you've created the environment variable in your local machine,
+  simply run those commands:
+
+* in order to install all packages run this command:
+
+- npm i
+
+* in order to start the react native local server run -
+
+- npx react-native start
+
+* in order to run the the app on Android emulator:
+
+- npx react-native run-android
+
+* in order to run the the app on ios emulator:
+
+- npx react-native run-ios
+
+---
+
+You can also run it with the provided APK which I've attached with an Android real device.
+
 Technologies explanation:
 
 - Front - React-Native CLI - I create 2 flows in the app :
@@ -50,8 +73,12 @@ Technologies explanation:
   2. Accuweather API - The second API gives me the five days forecast for each city and the autocomplete endpint that return a list of city based on the input I type - reference url - https://developer.accuweather.com/accuweather-locations-api/apis
 
 - Authentication - I use Firebase Authentication - 2 methods:
+
   1.  email & password
   2.  passwordless - a method that you type an email and it send you an email to the provided email address and then in the email you receive you have a link the points back to the app and this process is equivalent to other signin methods.
+  3.  Google Authentication Provider
+
+- I generated debug & Release APK and provided it with the project.
 
 ![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/forecast-screen.png)
 ![alt text](https://github.com/EvyatarHaim1/Weather-app-react-native/blob/main/assets/screenshots/forecast-screen2.png)

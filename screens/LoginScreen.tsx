@@ -1,19 +1,15 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Button,
-  TextInput,
-  Alert,
-  Text,
-  ScrollView,
-  Image,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Button, TextInput, Alert, Text, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import {setUser} from '../store/actions/user';
 import {useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {animationToStatus} from '../utils/animationToStatus';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+} from '@react-native-google-signin/google-signin';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -22,6 +18,13 @@ const LoginScreen: React.FC = () => {
   const weatherStatus = useSelector(
     (state: any) => state.weatherModule.weatherStatus,
   );
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '234076008858-vfoimic8s86a85gn4uai00h2k7naqokt.apps.googleusercontent.com',
+    });
+  }, []);
 
   const navigation = useNavigation();
 
@@ -57,10 +60,24 @@ const LoginScreen: React.FC = () => {
   const signOut = async () => {
     try {
       await auth().signOut();
-      // Signed out
+      const isSignedIn = await GoogleSignin.isSignedIn();
+      if (isSignedIn) {
+        await GoogleSignin.signOut();
+      }
     } catch (error: any) {
       Alert.alert('Logout failed', error.message);
     }
+  };
+
+  const onGoogleButtonPress = async () => {
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
   };
 
   const isLoginDisabled = !email || !password;
@@ -117,6 +134,13 @@ const LoginScreen: React.FC = () => {
             <Button
               title="Not registered yet?"
               onPress={() => navigation.navigate('SignUp')}
+            />
+
+            <GoogleSigninButton
+              style={styles.googleButton}
+              size={GoogleSigninButton.Size.Wide}
+              color={GoogleSigninButton.Color.Light}
+              onPress={onGoogleButtonPress}
             />
           </View>
         </View>
@@ -185,6 +209,10 @@ const styles = {
   },
   logoutButtonContainer: {
     width: '80%',
+  },
+  googleButton: {
+    width: '100%',
+    height: 48,
   },
 };
 
