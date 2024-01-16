@@ -8,11 +8,12 @@ Instructions how to run the application locally:
 - You should have in your local machine :
 
 * Android Studio
+* Java
 * Android SDK & JDK - in order to run Android Emulator
 * React Native CLI installed
-* Node.js version and other dependencies based on the React Native documentation.
+* Node.js, npm and other dependencies based on the React Native documentation.
 
-* In case you have all those dependencies installed and you've created the environment variable in your local machine,
+* In case you have all those dependencies installed and you've created the environment variables in your local machine,
   simply run those commands:
 
 * in order to install all packages run this command:
