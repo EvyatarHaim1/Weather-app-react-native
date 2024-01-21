@@ -1,22 +1,13 @@
 import React from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import WeatherCard from '../components/WeatherCard';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import Chart from '../components/Chart';
+import {days} from '../utils/days';
 
 function ForecastScreen() {
   const forecast = useSelector((state: any) => state.weatherModule.forecast);
   const city = useSelector((state: any) => state.weatherModule.city);
-
-  const days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -45,7 +36,7 @@ function ForecastScreen() {
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
-    backgroundColor: '#f0f0f0', // Light gray background
+    backgroundColor: '#f0f0f0',
   },
   container: {
     paddingTop: 20,

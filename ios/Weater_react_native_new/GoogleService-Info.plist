@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>234076008858-1se11tuknd0aanf6n2nt3g4qb45nmvp8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.234076008858-1se11tuknd0aanf6n2nt3g4qb45nmvp8</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>234076008858-tioa0nv8o1ed8k5fma1jgr0at776nq49.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC17_M2DE9VQRkQmBebo2qH9ANk4R79J2w</string>
+	<key>GCM_SENDER_ID</key>
+	<string>234076008858</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.rfc1034identifier</string>
+	<key>PROJECT_ID</key>
+	<string>evyatar-weatherapp-reactnative</string>
+	<key>STORAGE_BUCKET</key>
+	<string>evyatar-weatherapp-reactnative.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:234076008858:ios:4f648d72a9968bbe8eca23</string>
+</dict>
+</plist>

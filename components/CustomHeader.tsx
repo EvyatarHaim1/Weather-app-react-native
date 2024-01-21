@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import SearchBar from './Searchbar';
 
-const CustomHeader = ({navigation, route, title}) => {
+const CustomHeader = ({route, title}) => {
   const showSearchBar = ['Current Weather', 'Forecast'].includes(route.name);
 
   return (

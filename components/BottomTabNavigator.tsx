@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import FastImage from 'react-native-fast-image';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useNavigationState} from '@react-navigation/native';
@@ -41,7 +41,7 @@ const getTabBarIcon = (
   );
 };
 
-const BottomTabNavigator: React.FC = () => {
+const BottomTabNavigator: FC = () => {
   const state = useNavigationState(state => state);
   const userEmail = useSelector(state => state.userModule.userEmail);
   const currentRouteName = state.routes[state.index].name;
@@ -85,14 +85,8 @@ const BottomTabNavigator: React.FC = () => {
       <Tab.Screen
         name="Current Weather"
         component={CurrentWeatherScreen}
-        options={({route, navigation}) => ({
-          header: () => (
-            <CustomHeader
-              title="Current Weather"
-              route={route}
-              navigation={navigation}
-            />
-          ),
+        options={({route}) => ({
+          header: () => <CustomHeader title="Current Weather" route={route} />,
           tabBarIcon: ({focused, size}) =>
             getTabBarIcon('Current Weather', focused, size),
         })}
@@ -100,14 +94,8 @@ const BottomTabNavigator: React.FC = () => {
       <Tab.Screen
         name="Forecast"
         component={ForecastScreen}
-        options={({route, navigation}) => ({
-          header: () => (
-            <CustomHeader
-              title="Forecast"
-              route={route}
-              navigation={navigation}
-            />
-          ),
+        options={({route}) => ({
+          header: () => <CustomHeader title="Forecast" route={route} />,
           tabBarIcon: ({focused, size}) =>
             getTabBarIcon('Forecast', focused, size),
         })}

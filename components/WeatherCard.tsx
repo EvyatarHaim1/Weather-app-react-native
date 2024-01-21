@@ -1,16 +1,10 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {animationToStatus} from '../utils/animationToStatus';
 import FastImage from 'react-native-fast-image';
+import {WeatherCardProps} from '../types/types';
 
-type WeatherCardProps = {
-  day: string;
-  temperature: number;
-  status: string;
-  weatherStatus?: string;
-};
-
-const WeatherCard: React.FC<WeatherCardProps> = ({
+const WeatherCard: FC<WeatherCardProps> = ({
   day,
   temperature,
   weatherStatus,

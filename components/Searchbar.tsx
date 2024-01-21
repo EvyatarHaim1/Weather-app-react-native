@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Alert,
   Image,
 } from 'react-native';
 import searchIcon from '../assets/searchIcon.png';
@@ -20,7 +19,6 @@ import {useSelector} from 'react-redux';
 export default function SearchBar() {
   const [city, setCity] = useState<string>('');
   const cities = useSelector((state: any) => state.weatherModule.cities);
-  const cityId = useSelector((state: any) => state.weatherModule.cityId);
 
   useEffect(() => {
     if (city) fetch_Location_Autocomplete(city);

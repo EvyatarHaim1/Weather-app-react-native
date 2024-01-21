@@ -1,22 +1,10 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {View, Dimensions, Text} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
+import {ChartProps} from '../types/types';
 
-interface DayData {
-  Temperature: {
-    Maximum: {
-      Value: number;
-    };
-  };
-}
-
-interface ChartProps {
-  forecast: DayData[];
-}
-
-const Chart: React.FC<ChartProps> = ({forecast}) => {
+const Chart: FC<ChartProps> = ({forecast}) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  // Function to convert Fahrenheit to Celsius
   const convertFahrenheitToCelsius = (fahrenheit: number) => {
     return ((fahrenheit - 32) * 5) / 9;
   };
@@ -27,13 +15,10 @@ const Chart: React.FC<ChartProps> = ({forecast}) => {
       {
         data: forecast.map(day =>
           convertFahrenheitToCelsius(day.Temperature.Maximum.Value),
-        ), // Convert to Celsius
-        // Additional config for dots
+        ),
         withDots: true,
       },
     ],
-    // This is where you would define the logic to show tooltip
-    // However, react-native-chart-kit does not support tooltips natively
   };
 
   const chartConfig = {
@@ -66,19 +51,15 @@ const Chart: React.FC<ChartProps> = ({forecast}) => {
           marginVertical: 8,
           borderRadius: 16,
         }}
-        // onTouch event to determine which dot is being touched
-        // This feature is limited and might not work as expected
         onDataPointClick={({index}) => setActiveIndex(index)}
       />
       {activeIndex !== null && (
         <Text>
-          {/* Display details of the day when a point is touched */}
-          {/* Adapt this part to display the details you need */}
           Max Temp:{' '}
           {convertFahrenheitToCelsius(
             forecast[activeIndex].Temperature.Maximum.Value,
           ).toFixed(2)}
-          °C {/* Display in Celsius with 2 decimal places */}
+          °C
         </Text>
       )}
     </View>

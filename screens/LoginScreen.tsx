@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {View, Button, TextInput, Alert, Text, ScrollView} from 'react-native';
+import React, {FC, useState} from 'react';
+import {View, Button, TextInput, Alert, ScrollView, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
-import {setUser} from '../store/actions/user';
 import {useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {animationToStatus} from '../utils/animationToStatus';
+import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
+import {validateEmail, validatePassword} from '../utils/InputValidations';
 import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
+  signInWithEmail,
+  signInWithGoogle,
+  sendSignInLink,
+  signOut,
+} from '../store/actions/user';
 
-const LoginScreen: React.FC = () => {
+const LoginScreen: FC = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const userEmail = useSelector((state: any) => state?.userModule?.userEmail);
@@ -19,68 +22,48 @@ const LoginScreen: React.FC = () => {
     (state: any) => state.weatherModule.weatherStatus,
   );
 
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '234076008858-vfoimic8s86a85gn4uai00h2k7naqokt.apps.googleusercontent.com',
-    });
-  }, []);
+  const isLoginDisabled = !email || !password;
 
-  const navigation = useNavigation();
+  const validateInput = () => {
+    if (!validateEmail(email)) return 'Please enter a valid email.';
+    if (!validatePassword(password))
+      return 'Password must be at least 6 characters.';
+    return '';
+  };
 
-  const signInWithEmail = async () => {
+  const handleSignInWithEmail = async () => {
     try {
-      const loggedInUser = await auth().signInWithEmailAndPassword(
-        email,
-        password,
-      );
-      setUser(loggedInUser.user.email); // Assuming email is needed
-      navigation.navigate('Forecast');
+      const errorMessage = validateInput();
+      if (errorMessage) {
+        Alert.alert('Login failed', errorMessage);
+        return;
+      }
+      console.log(email, password);
+      await signInWithEmail(email, password);
     } catch (error: any) {
       Alert.alert('Login failed', error.message);
     }
   };
 
-  const signInWithLink = async (email: string) => {
-    const actionCodeSettings = {
-      // URL you want to redirect back to
-      url: 'https://evyatar-weatherapp-reactnative.firebaseapp.com/finishSignUp?cartId=1234',
-      handleCodeInApp: true,
-    };
-
+  const handleGoogleSignIn = async () => {
     try {
-      await auth().sendSignInLinkToEmail(email, actionCodeSettings);
-      // Save the email locally to use when the link is clicked
-      console.log('Sign-in link sent to email:', email);
+      await signInWithGoogle();
     } catch (error) {
-      console.error(error);
+      Alert.alert('Login failed', error.message);
     }
   };
 
-  const signOut = async () => {
-    try {
-      await auth().signOut();
-      const isSignedIn = await GoogleSignin.isSignedIn();
-      if (isSignedIn) {
-        await GoogleSignin.signOut();
-      }
-    } catch (error: any) {
-      Alert.alert('Logout failed', error.message);
+  const handleSendSignInLink = async () => {
+    if (!validateEmail(email)) {
+      Alert.alert('Invalid Input', 'Please enter a valid email.');
+      return;
     }
+    await sendSignInLink(email);
   };
 
-  const onGoogleButtonPress = async () => {
-    // Get the users ID token
-    const {idToken} = await GoogleSignin.signIn();
-
-    // Create a Google credential with the token
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-    // Sign-in the user with the credential
-    return auth().signInWithCredential(googleCredential);
+  const handleSignOut = async () => {
+    await signOut();
   };
-
-  const isLoginDisabled = !email || !password;
 
   return (
     <ScrollView style={styles.container}>
@@ -102,7 +85,7 @@ const LoginScreen: React.FC = () => {
           />
 
           <View style={styles.logoutButtonContainer}>
-            <Button title="Logout" onPress={signOut} />
+            <Button title="Logout" onPress={handleSignOut} />
           </View>
         </View>
       ) : (
@@ -123,13 +106,13 @@ const LoginScreen: React.FC = () => {
           <View style={styles.buttons}>
             <Button
               title="Login"
-              onPress={signInWithEmail}
+              onPress={handleSignInWithEmail}
               disabled={isLoginDisabled}
             />
             <Button
               title="Sign in with link"
               disabled={!email}
-              onPress={() => signInWithLink(email)}
+              onPress={handleSendSignInLink}
             />
             <Button
               title="Not registered yet?"
@@ -140,7 +123,7 @@ const LoginScreen: React.FC = () => {
               style={styles.googleButton}
               size={GoogleSigninButton.Size.Wide}
               color={GoogleSigninButton.Color.Light}
-              onPress={onGoogleButtonPress}
+              onPress={handleGoogleSignIn}
             />
           </View>
         </View>
