@@ -36,7 +36,7 @@ const Chart: FC<ChartProps> = ({forecast}) => {
       strokeWidth: '2',
       stroke: '#ffa726',
     },
-    formatYLabel: value => `${value.toFixed(2)}°C`, // Add °C to y-index values
+    formatYLabel: value => `${value?.toFixed(2)}°C`, // Add °C to y-index values
   };
 
   return (
@@ -58,7 +58,7 @@ const Chart: FC<ChartProps> = ({forecast}) => {
           Max Temp:{' '}
           {convertFahrenheitToCelsius(
             forecast[activeIndex].Temperature.Maximum.Value,
-          ).toFixed(2)}
+          )?.toFixed(2)}
           °C
         </Text>
       )}

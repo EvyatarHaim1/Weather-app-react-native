@@ -21,7 +21,9 @@ const weatherReducer = (state = initialState, action: any) => {
       return {
         ...state,
         city: action.payload.name,
-        temperature: parseFloat((action.payload.main.temp - 273.15).toFixed(3)).toString(), // Convert to Celsius, format to 3 decimal places, and convert to string
+        temperature: parseFloat(
+          (action?.payload?.main?.temp - 273.15)?.toFixed(3),
+        )?.toString(), // Convert to Celsius, format to 3 decimal places, and convert to string
         humidity: action.payload.main.humidity,
         weatherStatus: action.payload.weather[0].description,
         windSpeed: action.payload.wind.speed,
