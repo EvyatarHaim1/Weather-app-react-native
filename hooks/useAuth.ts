@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
-import {setUser} from '../../store/actions/user';
-import {AuthProvider} from '../../types/types';
+import {setUser} from '../store/actions/user';
+import {AuthProvider} from '../types/types';
 
 export const useAuth = (provider: AuthProvider) => {
   useEffect(() => {

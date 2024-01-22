@@ -1,25 +1,36 @@
 import React, {FC, useState} from 'react';
-import {View, Dimensions, Text} from 'react-native';
+import {View, Dimensions, Text, StyleSheet} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import {ChartProps} from '../types/types';
 
 const Chart: FC<ChartProps> = ({forecast}) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   const convertFahrenheitToCelsius = (fahrenheit: number) => {
     return ((fahrenheit - 32) * 5) / 9;
   };
 
-  const data = {
-    labels: forecast.map((_, index) => `Day ${index + 1}`),
-    datasets: [
-      {
-        data: forecast.map(day =>
-          convertFahrenheitToCelsius(day.Temperature.Maximum.Value),
-        ),
-        withDots: true,
-      },
-    ],
+  const safeConvertToFahrenheit = day => {
+    if (day && day.Temperature && day.Temperature.Maximum) {
+      return convertFahrenheitToCelsius(day.Temperature.Maximum.Value || 0);
+    }
+    return 0; // Default value if structure is not as expected
   };
+
+  const isValidForecastData =
+    forecast && Array.isArray(forecast) && forecast.length > 0;
+
+  const data = isValidForecastData
+    ? {
+        labels: forecast.map((_, index) => `Day ${index + 1}`),
+        datasets: [
+          {
+            data: forecast.map(day => safeConvertToFahrenheit(day)),
+            withDots: true,
+          },
+        ],
+      }
+    : null;
 
   const chartConfig = {
     backgroundColor: '#e26a00',
@@ -36,34 +47,47 @@ const Chart: FC<ChartProps> = ({forecast}) => {
       strokeWidth: '2',
       stroke: '#ffa726',
     },
-    formatYLabel: value => `${value?.toFixed(2)}°C`, // Add °C to y-index values
+    formatYLabel: value => `${parseFloat(value)?.toFixed(2)}°C`, // Add °C to y-axis values
   };
 
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-      <LineChart
-        data={data}
-        width={Dimensions.get('window').width - 40}
-        height={220}
-        chartConfig={chartConfig}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-        onDataPointClick={({index}) => setActiveIndex(index)}
-      />
-      {activeIndex !== null && (
-        <Text>
-          Max Temp:{' '}
-          {convertFahrenheitToCelsius(
-            forecast[activeIndex].Temperature.Maximum.Value,
-          )?.toFixed(2)}
+    <View style={styles.container}>
+      {isValidForecastData && data && (
+        <LineChart
+          data={data}
+          width={Dimensions.get('window').width - 40}
+          height={220}
+          chartConfig={chartConfig}
+          bezier
+          style={styles.chartStyle}
+          onDataPointClick={({index}) => setActiveIndex(index)}
+        />
+      )}
+      {activeIndex !== null && activeIndex < forecast.length && (
+        <Text style={styles.temperatureText}>
+          Max Temp: {safeConvertToFahrenheit(forecast[activeIndex])?.toFixed(2)}
           °C
         </Text>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  chartStyle: {
+    marginVertical: 8,
+    borderRadius: 16,
+  },
+  temperatureText: {
+    fontSize: 16,
+    color: '#004d40',
+    marginTop: 10,
+  },
+});
 
 export default Chart;

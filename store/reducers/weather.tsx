@@ -4,9 +4,9 @@ export const FETCH_LOCATION_AUTOCOMPLETE = 'FETCH_LOCATION_AUTOCOMPLETE';
 export const GET_FIVE_DAYS_FORECAST = 'GET_FIVE_DAYS_FORECAST';
 
 const initialState = {
-  city: 'tel aviv',
-  cityId: '215854',
-  locationKey: '215854',
+  city: '',
+  cityId: '',
+  locationKey: '',
   temperature: '',
   humidity: '',
   windSpeed: '',

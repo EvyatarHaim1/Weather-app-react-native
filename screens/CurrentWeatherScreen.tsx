@@ -4,23 +4,34 @@ import {useSelector} from 'react-redux';
 import {animationToStatus} from '../utils/animationToStatus';
 
 function CurrentWeatherScreen() {
-  const city = useSelector((state: any) => state.weatherModule.city);
+  const city = useSelector(state => state.weatherModule.city);
   const userLocation = useSelector(state => state.userModule.userLocation);
-  const temperature = useSelector(
-    (state: any) => state.weatherModule.temperature,
-  );
-  const humidity = useSelector((state: any) => state.weatherModule.humidity);
-  const weatherStatus = useSelector(
-    (state: any) => state.weatherModule.weatherStatus,
-  );
-  const windSpeed = useSelector((state: any) => state.weatherModule.windSpeed);
+  const temperature = useSelector(state => state.weatherModule.temperature);
+  const humidity = useSelector(state => state.weatherModule.humidity);
+  const weatherStatus = useSelector(state => state.weatherModule.weatherStatus);
+  const windSpeed = useSelector(state => state.weatherModule.windSpeed);
+
+  const renderWeatherInfo = () => {
+    const weatherInfo = [
+      {label: 'Temperature', value: `${temperature}°C`},
+      {label: 'Humidity', value: `${humidity}%`},
+      {label: 'Weather Status', value: weatherStatus},
+      {label: 'Wind Speed', value: `${windSpeed} Knot`},
+    ];
+
+    return weatherInfo.map((info, index) => (
+      <Text style={styles.weatherText} key={index}>
+        {info.label}: {info.value}
+      </Text>
+    ));
+  };
 
   return (
     <View style={styles.container}>
       {userLocation && (
         <Text style={styles.location}>
-          Your current location: Latitude {userLocation?.coords?.latitude},
-          Longitude: {userLocation?.coords?.longitude}
+          Your current location: Latitude {userLocation.coords.latitude},
+          Longitude: {userLocation.coords.longitude}
         </Text>
       )}
       <ImageBackground
@@ -29,12 +40,7 @@ function CurrentWeatherScreen() {
         source={animationToStatus(weatherStatus)}>
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{city}</Text>
-          <Text style={styles.temperature}>Temperature: {temperature}°C</Text>
-          <Text style={styles.weatherText}>Humidity: {humidity}%</Text>
-          <Text style={styles.weatherText}>
-            Weather Status: {weatherStatus}
-          </Text>
-          <Text style={styles.weatherText}>Wind Speed: {windSpeed} Knot</Text>
+          {renderWeatherInfo()}
         </View>
       </ImageBackground>
     </View>

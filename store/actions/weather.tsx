@@ -18,6 +18,7 @@ export const get_city_weather = async (city: string) => {
       type: GET_CURRENT_WEATHER,
       payload: currentCityWeather,
     });
+    await get_fiveDays_forecast(currentCityWeather.sys?.id);
   } catch (err) {
     console.log('Cannot load weather', err);
     throw err;
@@ -53,7 +54,7 @@ export const get_fiveDays_forecast = async (cityId: string) => {
 export const get_user_location = async (lat, long) => {
   try {
     const res = await getUserLocation(lat, long);
-    get_city_weather(res?.LocalizedName);
+    await get_city_weather(res?.LocalizedName);
   } catch (err) {
     console.log('Cannot load weather', err);
     throw err;

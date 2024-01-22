@@ -1,20 +1,58 @@
-import React, {FC} from 'react';
-import {View, Button, TextInput, StyleSheet} from 'react-native';
-import {validateEmail, validatePassword} from '../utils/InputValidations';
+import React, {FC, useState} from 'react';
+import {View, Button, TextInput, Alert, StyleSheet} from 'react-native';
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
-import {LoginFormProps} from '../types/types';
+import {validateEmail, validatePassword} from '../utils/InputValidations';
+import {
+  signInWithEmail,
+  signInWithGoogle,
+  sendSignInLink,
+} from '../store/actions/user';
+import {useNavigation} from '@react-navigation/native';
 
-export const LoginForm: FC<LoginFormProps> = ({
-  email,
-  setEmail,
-  password,
-  setPassword,
-  onLogin,
-  onSignInWithLink,
-  onNavigateSignUp,
-  onGoogleSignIn,
-}) => {
-  const isLoginDisabled = !validateEmail(email) || !validatePassword(password);
+const LoginForm: FC = () => {
+  const navigation = useNavigation();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const isLoginDisabled = !email || !password;
+
+  const validateInput = () => {
+    if (!validateEmail(email)) return 'Please enter a valid email.';
+    if (!validatePassword(password))
+      return 'Password must be at least 6 characters.';
+    return '';
+  };
+
+  const handleSignInWithEmail = async () => {
+    try {
+      const errorMessage = validateInput();
+      if (errorMessage) {
+        Alert.alert('Login failed', errorMessage);
+        return;
+      }
+      console.log(email, password);
+      await signInWithEmail(email, password);
+    } catch (error: any) {
+      Alert.alert('Login failed', error.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      Alert.alert('Login failed', error.message);
+    }
+  };
+
+  const handleSendSignInLink = async () => {
+    console.log(email);
+    if (!validateEmail(email)) {
+      Alert.alert('Invalid Input', 'Please enter a valid email.');
+      return;
+    }
+    await sendSignInLink(email);
+  };
 
   return (
     <View style={styles.loginContainer}>
@@ -23,7 +61,6 @@ export const LoginForm: FC<LoginFormProps> = ({
         placeholder="Email"
         onChangeText={setEmail}
         value={email}
-        keyboardType="email-address"
       />
       <TextInput
         style={styles.textInput}
@@ -33,18 +70,25 @@ export const LoginForm: FC<LoginFormProps> = ({
         secureTextEntry
       />
       <View style={styles.buttons}>
-        <Button title="Login" onPress={onLogin} disabled={isLoginDisabled} />
+        <Button
+          title="Login"
+          onPress={handleSignInWithEmail}
+          disabled={isLoginDisabled}
+        />
         <Button
           title="Sign in with link"
-          onPress={() => onSignInWithLink(email)}
-          disabled={!validateEmail(email)}
+          onPress={handleSendSignInLink}
+          disabled={!email}
         />
-        <Button title="Not registered yet?" onPress={onNavigateSignUp} />
+        <Button
+          title="Not registered yet?"
+          onPress={() => navigation.navigate('SignUp')}
+        />
         <GoogleSigninButton
           style={styles.googleButton}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
-          onPress={onGoogleSignIn}
+          onPress={handleGoogleSignIn}
         />
       </View>
     </View>
@@ -55,15 +99,8 @@ const styles = StyleSheet.create({
   loginContainer: {
     marginTop: 100,
     flex: 1,
-    display: 'flex',
-    gap: 10,
-    width: '80%',
-    alignSelf: 'center',
     justifyContent: 'center',
-  },
-  buttons: {
-    display: 'flex',
-    gap: 15,
+    alignItems: 'center',
   },
   textInput: {
     borderWidth: 1,
@@ -71,10 +108,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: 'white',
+    width: '80%',
+  },
+  buttons: {
+    display: 'flex',
+    gap: 10,
+    marginTop: 10,
+    width: '80%',
   },
   googleButton: {
-    width: '100%',
     height: 48,
+    width: '100%',
+  },
+  btn: {
+    paddingLeft: 8,
+    paddingRight: 8,
   },
 });
+
+export default LoginForm;

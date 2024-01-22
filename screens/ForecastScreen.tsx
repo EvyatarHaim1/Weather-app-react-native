@@ -1,5 +1,11 @@
 import React from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import WeatherCard from '../components/WeatherCard';
 import {useSelector} from 'react-redux';
 import Chart from '../components/Chart';
@@ -18,15 +24,24 @@ function ForecastScreen() {
           <Chart forecast={forecast} />
         </View>
         <View style={styles.weatherCardContainer}>
-          {forecast?.map((day: any) => (
-            <WeatherCard
-              key={day?.EpochDate}
-              day={days[new Date(day?.Date).getDay()]}
-              temperature={day?.Temperature.Maximum.Value}
-              weatherStatus={day?.Day?.IconPhrase}
-              status={day?.Day?.IconPhrase}
-            />
-          ))}
+          {!forecast.length ? (
+            <View style={styles.noData}>
+              <Text>
+                No forecast available. Please select a city to see the forecast.
+              </Text>
+              <ActivityIndicator size="large" />
+            </View>
+          ) : (
+            forecast?.map((day: any) => (
+              <WeatherCard
+                key={day?.EpochDate}
+                day={days[new Date(day?.Date).getDay()]}
+                temperature={day?.Temperature.Maximum.Value}
+                weatherStatus={day?.Day?.IconPhrase}
+                status={day?.Day?.IconPhrase}
+              />
+            ))
+          )}
         </View>
       </View>
     </ScrollView>
@@ -64,6 +79,10 @@ const styles = StyleSheet.create({
   weatherCardContainer: {
     maxWidth: '100%',
     alignSelf: 'stretch',
+  },
+  noData: {
+    display: 'flex',
+    gap: 40,
   },
 });
 
