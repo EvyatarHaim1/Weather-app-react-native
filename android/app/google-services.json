@@ -7,19 +7,23 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:234076008858:android:76f1aafa90d988828eca23",
+        "mobilesdk_app_id": "1:234076008858:android:b4fc11f154d69ee08eca23",
         "android_client_info": {
           "package_name": "com.weater_react_native_new"
         }
       },
       "oauth_client": [
         {
-          "client_id": "234076008858-tioa0nv8o1ed8k5fma1jgr0at776nq49.apps.googleusercontent.com",
+          "client_id": "234076008858-r9qqvgaggrm78n93p59autcr9fdjtco0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.weater_react_native_new",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+            "certificate_hash": "b651fae2f94a8fb1e7858ea685323d8cdc704a66"
           }
+        },
+        {
+          "client_id": "234076008858-7h5864dklmhm7c4o2s1rvptuhg8sbv0u.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
@@ -31,11 +35,11 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "234076008858-vfoimic8s86a85gn4uai00h2k7naqokt.apps.googleusercontent.com",
+              "client_id": "234076008858-7h5864dklmhm7c4o2s1rvptuhg8sbv0u.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "234076008858-1se11tuknd0aanf6n2nt3g4qb45nmvp8.apps.googleusercontent.com",
+              "client_id": "234076008858-c9mtl0ki966cimlp0lgfuc15td10m1dj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "org.reactjs.native.example.rfc1034identifier"
