@@ -37,13 +37,14 @@ const LoginForm: FC = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      Alert.alert('Login failed', error.message);
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     const userCredential = await signInWithGoogle();
+  //     console.log(userCredential); // User is signed in
+  //   } catch (error) {
+  //     Alert.alert('Login Failed', error.message);
+  //   }
+  // };
 
   const handleSendSignInLink = async () => {
     console.log(email);
@@ -84,12 +85,12 @@ const LoginForm: FC = () => {
           title="Not registered yet?"
           onPress={() => navigation.navigate('SignUp')}
         />
-        <GoogleSigninButton
+        {/* <GoogleSigninButton
           style={styles.googleButton}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
           onPress={handleGoogleSignIn}
-        />
+        /> */}
       </View>
     </View>
   );

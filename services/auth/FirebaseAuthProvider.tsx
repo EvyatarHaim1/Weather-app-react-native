@@ -2,10 +2,26 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {IAuthProvider} from '../../types/types'; // Ensure this is the correct path
 
+// Configure Google Sign In
 GoogleSignin.configure({
   webClientId:
-    '234076008858-tioa0nv8o1ed8k5fma1jgr0at776nq49.apps.googleusercontent.com',
+    '234076008858-7h5864dklmhm7c4o2s1rvptuhg8sbv0u.apps.googleusercontent.com',
 });
+
+export const signInWithGoogle = async () => {
+  try {
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
+  } catch (error) {
+    throw new Error('Google Sign-In failed');
+  }
+};
 
 export const FirebaseAuthProvider: IAuthProvider = {
   signInWithEmail: async (
@@ -24,10 +40,15 @@ export const FirebaseAuthProvider: IAuthProvider = {
 
   signInWithGoogle: async (): Promise<FirebaseAuthTypes.UserCredential> => {
     try {
+      // Get the users ID token
       const {idToken} = await GoogleSignin.signIn();
       if (!idToken)
         throw new Error('Google Sign-In failed: No ID token returned');
+
+      // Create a Google credential with the token
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign-in the user with the credential
       return auth().signInWithCredential(googleCredential);
     } catch (error) {
       console.error('Google Sign-In Error:', error);
